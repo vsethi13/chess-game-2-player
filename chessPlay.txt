@@ -1,0 +1,60 @@
+pieces:
+
+<Syntax: backFlag : direction : # of blocks : jumpOverAllowed> 
+
+king(K)		- t : any : 1 : f
+queen(Q)	- t : horizontal, vertical, diagonal : any : f
+rook(R)		- t : horizontal, vertical : any : f
+bishop(B)	- t : diagonal : any : f
+knight(N)	- t : 'L' shape (jump-over allowed) : (2|x| + |y| OR 2|y| + |x|) : t
+pawn(-/P)	- f : diagonal/vertical : vertical (1/2)*, diagonal(1)* : f
+
+special moves:
+
+- castling
+- promotion
+- en passant
+- disambiguous moves
+
+Design:
+
+Chessboard
+	- 8x8 Square array
+	- auxiliary Piece map - Map<Character, List<Piece>>
+	- 'has-a' FEN
+	- move(Move m)
+	- initiate()
+	- print()
+
+Square
+	- 'has-a' Piece
+	- rank
+	- file
+	- row
+	- col
+	- vacant
+
+Piece
+	- generic piece class
+	- 'has-a' Square
+	- type (tells w/b and which character)
+	- isValidMove(destSquare, isCapture)
+	- subclasses K, Q, R, B, N, P
+
+FEN
+	- class to capture board state
+	- initiate board state with a fen string
+	- getFenString()
+	- rankArray
+	- sideToMove
+	- castlingAbility
+	- enPassantTargetSquare
+	- halfMoveCounter
+	- fullMoveCounter
+	- other methods
+
+Move
+	- piece
+	- destSquare
+	- isCapture
+	- getValidMove(input str, state variables)
